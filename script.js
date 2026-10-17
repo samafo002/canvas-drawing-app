@@ -1,8 +1,6 @@
-// ===== Canvas & Context =====
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-// ===== DOM Elements =====
 const colorPicker = document.getElementById('colorPicker');
 const brushSize = document.getElementById('brushSize');
 const clearBtn = document.getElementById('clearBtn');
@@ -11,24 +9,20 @@ const eraserBtn = document.getElementById('eraserBtn');
 const undoBtn = document.getElementById('undoBtn');
 const redoBtn = document.getElementById('redoBtn');
 
-// ===== Canvas Resize =====
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight - 60;
 }
 resizeCanvas();
 
-// ===== Drawing State =====
 let drawing = false;
 let isErasing = false;
 let lastX = 0, lastY = 0;
 
-// ===== Undo/Redo State =====
 let history = [];
 let redoStack = [];
 const MAX_HISTORY = 30;
 
-// ===== Undo/Redo Functions =====
 function saveState() {
   if (history.length >= MAX_HISTORY) history.shift();
   history.push(canvas.toDataURL());
@@ -51,7 +45,6 @@ function updateButtons() {
   redoBtn.disabled = redoStack.length === 0;
 }
 
-// ===== Undo/Redo Listeners =====
 undoBtn.addEventListener('click', () => {
   if (history.length <= 1) return;
   redoStack.push(history.pop());
@@ -65,7 +58,6 @@ redoBtn.addEventListener('click', () => {
   restoreState(next, updateButtons);
 });
 
-// ===== Shared Draw Function =====
 function drawLine(x0, y0, x1, y1) {
   ctx.beginPath();
   ctx.moveTo(x0, y0);
@@ -76,7 +68,6 @@ function drawLine(x0, y0, x1, y1) {
   ctx.stroke();
 }
 
-// ===== Mouse Events =====
 canvas.addEventListener('mousedown', (e) => {
   drawing = true;
   [lastX, lastY] = [e.offsetX, e.offsetY];
@@ -98,7 +89,6 @@ canvas.addEventListener('mouseout', () => {
   drawing = false;
 });
 
-// ===== Touch Events =====
 canvas.addEventListener('touchstart', (e) => {
   e.preventDefault();
   const touch = e.touches[0];
@@ -127,7 +117,6 @@ canvas.addEventListener('touchend', (e) => {
   drawing = false;
 });
 
-// ===== Toolbar Button Listeners =====
 clearBtn.addEventListener('click', () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   saveState();
@@ -145,7 +134,6 @@ eraserBtn.addEventListener('click', () => {
   eraserBtn.textContent = isErasing ? 'Draw' : 'Eraser';
 });
 
-// ===== Window Resize =====
 window.addEventListener('resize', () => {
   resizeCanvas();
   history = [];
@@ -154,5 +142,4 @@ window.addEventListener('resize', () => {
   updateButtons();
 });
 
-// ===== Initialize =====
 saveState();

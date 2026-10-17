@@ -19,7 +19,7 @@ canvas {
     display: block;
     background: #fff;
     cursor: crosshair;
-    touch-action: none; /* critical for mobile */
+    touch-action: none; /* */
 }
 
 button:disabled {
@@ -33,5 +33,5 @@ button:disabled {
     background: #fff;
     border-bottom: 1px solid #ddd;
     align-items: center;
-    flex-wrap: wrap; /* critical for mobile layout */
+    flex-wrap: wrap; /* */
 }
